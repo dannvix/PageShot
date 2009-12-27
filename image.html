@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <title>PageShot Capture Editor</title>
+    <script type="text/javascript" charset="utf-8" src="jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="jcrop.js"></script>
+    <link rel="stylesheet" type="text/css" href="jcrop.css" />
+    <style>
+      #apply {
+        display: none;
+      }
+      #coords {
+        display: none;
+      }
+      .input {
+        border: 0px;
+      }
+      .result {
+        border: Black solid 1px;
+        margin: 20px;
+      }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+    var jcrop;
+    function get_params (name){
+      var results = new RegExp("[\\?&]" + name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]") + "=([^&#]*)").exec(window.location.href); 
+      return (results == null) ? ("") : (results[1]);
+    }
+    function show_coords (c) {
+      $("#x").val(c.x);
+      $("#x2").val(c.x2);
+      $("#y").val(c.y);
+      $("#y2").val(c.y2);
+      $("#w").val(c.w);
+      $("#h").val(c.h);
+    }
+    function begin_crop () {
+      $("#begin").hide();
+      $("#apply").show(500);
+      jcrop = $("#pageshot").Jcrop({
+        setSelect: [0, 0, 100, 100],
+        onChange: show_coords,
+        onSelect: show_coords
+      });
+      $("#coords").show(1000);
+    }
+    function apply_crop () {
+      $("#canvas").attr("width", $("#w").val());
+      $("#canvas").attr("height", $("#h").val());
+      var ctx = document.getElementById("canvas").getContext("2d");
+      var img = new Image();
+      img.src = get_params("url");
+      ctx.drawImage(img, $("#x").val(), $("#y").val(), $("#w").val(), $("#h").val(), 0, 0, $("#w").val(), $("#h").val());
+      $("#result").append("<img class=\"result\" src=\"" + document.getElementById("canvas").toDataURL("image/png") + "\" \/>");
+      $("#result").show();
+    }
+    </script>
+  </head>
+  <body>
+    <h1>PageShot Capture Cropper</h1>
+    <h3 id="begin"><a href="#" onclick="begin_crop();">Begin Cropping</a></h3>
+    <h3 id="apply"><a href="#" onclick="location.reload(true);">Cancel</a> | <a href="#" onclick="apply_crop();">Apply!</a></h3>
+    <div id="result" style="display: none;">
+      <h3>Results</h3>
+    </div>
+    <div id="coords">
+      <label>X1 <input type="text" size="4" id="x" name="x" /></label>
+      <label>Y1 <input type="text" size="4" id="y" name="y" /></label>
+      <label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
+      <label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
+      <label>W <input type="text" size="4" id="w" name="w" /></label>
+      <label>H <input type="text" size="4" id="h" name="h" /></label>
+    </div>
+    <img id="pageshot" src="#" />
+    <script type="text/javascript" charset="utf-8">
+      $("#pageshot").attr("src", get_params("url"));
+    </script>
+    <canvas id="canvas"></canvas>
+  </body>
+</html>

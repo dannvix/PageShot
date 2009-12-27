@@ -1,0 +1,16 @@
+{
+  "name": "PageShot",
+  "version": "1.0",
+  "description": "Take a webpage capture and crop",
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "browser_action": {
+    "default_icon": "icon_128.png",
+    "default_title": "Page Shot"
+  },
+  "background_page": "background.html",
+  "permissions": [
+    "tabs"
+  ]
+}

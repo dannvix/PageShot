@@ -1,0 +1,19 @@
+<html>
+  <script type="text/javascript" charset="utf-8">
+    chrome.browserAction.onClicked.addListener (
+      function (tab) {
+        chrome.tabs.captureVisibleTab (
+          tab.windowId,
+          function (url) {
+            chrome.tabs.create ({
+              "windowId": tab.windowId,
+              // "index": tab.id,
+              "url": chrome.extension.getURL("image.html") + "?url=" + url,
+              "selected": true
+            });
+          }
+        );
+      }
+    );
+  </script>
+</html>
