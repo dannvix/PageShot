@@ -22,7 +22,7 @@
     <script type="text/javascript" charset="utf-8">
     var jcrop;
     function get_params (name){
-      var results = new RegExp("[\\?&]" + name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]") + "=([^&#]*)").exec(window.location.href); 
+      var results = new RegExp("[\\?&]" + name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]") + "=([^&#]*)").exec(window.location.href);
       return (results == null) ? ("") : (results[1]);
     }
     function show_coords (c) {
